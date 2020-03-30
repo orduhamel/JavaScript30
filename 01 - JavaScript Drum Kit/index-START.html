@@ -57,22 +57,35 @@
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
-<!--
-  0. Sélectionner la clé
-  1. Listen to key when it is pressed down
-    - Add the class playing
-    - Play the corresponding audio sound
-  2. Listen to the key when it is pressed up
-    - Remove the class playing
-    - Stop playing the audio sound
+<!-- PSEUDO-CODE
+  1. Sélectionner la page
+  2. Listen to key when it is pressed down
+  3. When it is pressed down :
+    A. Play the corresponding audio sound
+    B. Add the class playing
+    C. Remove the class playing once the transition has ended
 -->
-
 <script>
-  window.addEventListener('keydown', (event) => {
-    console.log(event);
-  })
-</script>
+  function removeTransition(event) {
+    if (event.propertyName !== 'transform') return; // skip if it isn't a transform
+    this.classList.remove('playing'); // remove the playing class when the key (this) has finished its transition
+  };
 
+  const playSound = (event) => {
+    const audio = document.querySelector(`audio[data-key="${event.keyCode}"]`); // select the audio file with the data-key corresponding
+    const key = document.querySelector(`.key[data-key="${event.keyCode}"]`); // select the element with the data-key corresponding
+
+    if (!audio) return; // stop the function from running
+
+    audio.currentTime = 0; // rewind to the start each time the audio element is accessed
+    audio.play(); // play the audio
+    key.classList.add('playing'); // add the class playing
+  }
+
+  const keys = document.querySelectorAll('.key'); // select all the elements with the class keys
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition)); // when the key has finished its transition, run the removeTransition function
+  window.addEventListener('keydown', playSound); // when a key is down, run the playSound function
+</script>
 
 </body>
 </html>
