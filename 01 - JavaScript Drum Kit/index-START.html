@@ -57,8 +57,20 @@
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
-<script>
+<!--
+  0. Sélectionner la clé
+  1. Listen to key when it is pressed down
+    - Add the class playing
+    - Play the corresponding audio sound
+  2. Listen to the key when it is pressed up
+    - Remove the class playing
+    - Stop playing the audio sound
+-->
 
+<script>
+  window.addEventListener('keydown', (event) => {
+    console.log(event);
+  })
 </script>
 
 
