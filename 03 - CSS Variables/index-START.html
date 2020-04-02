@@ -22,9 +22,26 @@
 
   <style>
 
+
     /*
       misc styles, nothing to do with CSS variables
     */
+
+    :root {
+      --base: #ffc600;
+      --blur: 10px;
+      --spacing: 10px;
+    }
+
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    .hl {
+      color: var(--base);
+    }
 
     body {
       text-align: center;
@@ -44,7 +61,20 @@
     }
   </style>
 
+  <!-- Select the 3 variables: base, blur and spacing -->
+  <!-- When the variables change, the CSS variables are updated -->
   <script>
+    const inputs = document.querySelectorAll('.controls input'); // returns a NodeList
+
+    function handleUpdate() {
+      const suffix = this.dataset.sizing || ''; // get the variable's suffix (px or nothing)
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix ); // change the variable's property value
+    }
+
+    // Listen to a change of the variables' value and update the CSS variables
+    inputs.forEach( input => input.addEventListener('change', handleUpdate));
+    inputs.forEach( input => input.addEventListener('mousemove', handleUpdate));
+
   </script>
 
 </body>
